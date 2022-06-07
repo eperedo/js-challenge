@@ -2,6 +2,7 @@ window.localStorage.clear();
 const $app = document.getElementById("app");
 const $observe = document.getElementById("observe");
 const API = "https://api.escuelajs.co/api/v1/products?";
+const LIMIT = 10;
 
 function showAlert() {
   const $el = document.createElement("div");
@@ -10,10 +11,10 @@ function showAlert() {
   $app.appendChild($el);
 }
 
-const getData = async (api, { offset, limit }) => {
+const getData = async (api, { offset }) => {
   const url = new URLSearchParams();
   url.append("offset", offset);
-  url.append("limit", limit);
+  url.append("limit", LIMIT);
   const response = await fetch(`${api}${url}`);
   const products = await response.json();
   let output = products.reduce((html, product) => {
@@ -36,7 +37,7 @@ const getData = async (api, { offset, limit }) => {
 };
 
 const loadData = async (offset) => {
-  await getData(API, { offset, limit: 10 });
+  await getData(API, { offset });
   window.localStorage.setItem("pagination", offset);
 };
 
